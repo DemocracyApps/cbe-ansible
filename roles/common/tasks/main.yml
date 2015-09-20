@@ -1,0 +1,16 @@
+---
+
+  - name: Add the latest ansible repository
+    action: apt_repository repo='ppa:ansible/ansible' state=present
+
+  - name: update apt cache
+    apt: update_cache=yes upgrade=yes
+
+  - name: install git, curl, python ansible
+    apt: name={{ item }} state=present
+    with_items:
+      - git-core
+      - curl
+      - python-psycopg2
+      - ansible
+

@@ -1,0 +1,20 @@
+---
+
+
+  - name: Add the standard Postgres repository
+    action: apt_repository repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
+
+  - name: Add the apt key for the Postgres repository
+    action: apt_key url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+
+  - name: update apt cache
+    apt: update_cache=yes upgrade=yes
+
+  - name: install postgresql
+    apt: name='postgresql-client-9.4' state=present
+
+  - name: install pgadmin3
+    apt: name='pgadmin3' state=present
+
+
+

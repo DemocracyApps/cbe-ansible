@@ -1,0 +1,32 @@
+---
+
+  - name: Add the standard Postgres repository
+    action: apt_repository repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
+
+  - name: Add the apt key for the Postgres repository
+    action: apt_key url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+
+  - name: update apt cache
+    apt: update_cache=yes upgrade=yes
+
+  - name: install postgresql
+    apt: name={{ item }} state=present upgrade=yes
+    with_items:
+      - postgresql-client-common-9.4
+      - postgresql-9.4
+      - postgresql-contrib-9.4
+      - pgadmin3
+
+  - postgresql_db: name={{ item }}
+    with_items: "{{db_list}}"
+    sudo: yes
+    sudo_user: postgres
+
+
+  - postgresql_user: db={{ item[0] }} name={{ item[1]}} password={{db_password}} role_attr_flags=CREATEDB,CREATEROLE,CREATEUSER
+    with_nested:
+      - "{{db_list}}"
+      - "{{db_users}}"
+    sudo: yes
+    sudo_user: postgres
+

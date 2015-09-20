@@ -1,0 +1,22 @@
+---
+
+  - name: Install the backup script
+    template:
+      src=pg_backup.php
+      dest=/usr/local/bin/pg_backup.php
+
+  - name: Create the .pgpass file
+    template:
+      src=.pgpass
+      dest=/home/ubuntu/.pgpass
+
+  - name: Make pgpass file owner-only
+    file: path=/home/ubuntu/.pgpass owner=ubuntu group=ubuntu mode=0600
+    sudo: yes
+
+  - name: Make backup script executable
+    file: path=/usr/local/bin/pg_backup.php mode=0755
+    sudo: yes
+
+  - name: Create the backup directory locally
+    file: state=directory owner=ubuntu group=ubuntu mode=0755 path=/mnt/data/backups

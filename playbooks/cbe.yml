@@ -1,0 +1,28 @@
+---
+- hosts: all
+  sudo: true
+
+  vars:
+
+
+  vars_files:
+    - cbe_vars.yml
+    - aws_vars.yml
+
+  pre_tasks:
+
+  - name: update apt cache
+    apt: update_cache=yes
+
+  roles:
+    - common    # Install standard software on the server
+    - webserver # Install & configure Apache & PHP
+#    - vhost     # Create a virtual host associated with the application
+#    - { role: database, when: role == 'development' }
+#    - { role: database_client, when: role != 'development' }
+#    - awscli
+#    - ebs_backup
+
+
+
+

@@ -1,0 +1,6 @@
+[program:queue]
+command=php artisan queue:listen --tries=2 --timeout=600
+directory={{document_base}}
+stdout_logfile={{document_base}}/storage/logs/supervisor.log
+redirect_stderr=true
+user=www-data

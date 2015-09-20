@@ -1,0 +1,42 @@
+#########################################################################
+## The following are usually changed for every deployment
+#########################################################################
+
+# The (unique) name of the database associated with this Moodle instance
+moodle_db_name: "moodle2"
+
+# The URL through which Moodle instance will be accessed.
+moodle_wwwroot: "http://54.165.206.3"
+
+
+#########################################################################
+## The following should be checked for every relevant deployment
+#########################################################################
+
+# Mode can be production, reference (for creating a Moodle AMI) or development
+mode: "development"
+
+# The URL of the database or RDS instance that Moodle will use
+moodle_db_server: "ttp-db-003.csgsecmomz6x.us-east-1.rds.amazonaws.com"
+
+# Moodle version - latest stable version (relevant only if mode = reference)
+moodle_version: "MOODLE_29_STABLE"
+
+# Name of the device used for Moodle data directory
+# Note: this is the name INSIDE the OS, returned by the lsblk command, not the AWS name
+moodle_data_device: "/dev/xvdb"
+
+
+#########################################################################
+## The following should only be changed if you know what you are doing
+#########################################################################
+
+# Application name - used in directory & other names
+app_name: "moodle"
+
+
+db_users: ["ttp_user"]
+db_password: "default_ttp_password"
+db_list: ["ttp_config","moodle"] # Note - this is mostly just used for dev servers.
+
+apache_document_base: /var/www/{{ app_name }}

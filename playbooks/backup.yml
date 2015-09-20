@@ -1,0 +1,30 @@
+# This playbook prepares a Moodle instance from a base Ubuntu 14.04 instance.
+# To run, spin up an instance on AWS.
+#
+# If you have ansible installed on your local machine, modify the moodle line in the
+# 'hosts' file to have the appropriate IP address and PEM file and in the main ansible directory run:
+#      ansible-playbook -i hosts moodle.yml
+#   or
+#      ansible-playbook -i 'host-ip,' moodle.yml
+# You may need to provide the --private-key keyfile and --user=ubuntu options.
+#
+# Alternatively, you can copy this directory to the EC2 instance, ssh in and in the main ansible directory run
+#      ansible-playbook -i "localhost," -c local moodle.yml
+#
+---
+- hosts: all
+  sudo: true
+
+  vars:
+
+  vars_files:
+    - moodle_vars.yml
+    - aws_vars.yml
+
+  roles:
+    - pg_backup
+    - ebs_backup
+
+
+
+
