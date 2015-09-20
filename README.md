@@ -55,7 +55,7 @@ This will install everything included in the Vagrant initialize.yml script.
 
 All you need to do is run the 'initialize.yml' playbook. For example, on an AWS EC2 instance:
 
-    ansible-playbook -i '_ec2-ip-address_,' --private-key _ssh-key-file_ --user=ubuntu playbooks/initialize.yml
+    ansible-playbook -i '[ec2-ip-address],' --private-key [ssh-key-file] --user=ubuntu playbooks/initialize.yml
     
 Note that the comma following the IP address is required.
 
