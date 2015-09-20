@@ -6,8 +6,7 @@
 
 
   vars_files:
-    - cbe_vars.yml
-    - aws_vars.yml
+    - common_vars.yml
 
   pre_tasks:
 
@@ -17,6 +16,9 @@
   roles:
     - common    # Install standard software on the server
     - webserver # Install & configure Apache & PHP
+    - { role: vhost, app_name: "cbe", app_port: 80}
+    - { role: vhost, app_name: "drs", app_port: 10010 }
+
 #    - vhost     # Create a virtual host associated with the application
 #    - { role: database, when: role == 'development' }
 #    - { role: database_client, when: role != 'development' }

@@ -51,6 +51,11 @@ bootstrap this, log into the machine, install git, clone this repository, then r
     
 This will install everything included in the Vagrant initialize.yml script.
 
+You will need to run all the ansible commands on the remote server. To do that, simply use the following
+
+    ansible-playbook -i "localhost," -c local [playbook-name].yml
+
+
 ### Getting started on a remote server using local ansible
 
 All you need to do is run the 'initialize.yml' playbook. For example, on an AWS EC2 instance:
@@ -59,3 +64,9 @@ All you need to do is run the 'initialize.yml' playbook. For example, on an AWS 
     
 Note that the comma following the IP address is required.
 
+## Application Installation
+
+From this point, instructions for the different environments are identical. We assume that
+you know how to run ansible either from your development machine or locally on the application server,
+as described above.
+ 

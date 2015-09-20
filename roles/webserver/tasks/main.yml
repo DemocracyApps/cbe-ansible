@@ -1,3 +1,6 @@
 ---
   - include: apache.yml
   - include: php.yml
+
+  - name: get rid of /var/www/html
+    file: path=/var/www/html state=absent

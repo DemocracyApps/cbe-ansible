@@ -39,4 +39,3 @@ db_users: ["ttp_user"]
 db_password: "default_ttp_password"
 db_list: ["ttp_config","moodle"] # Note - this is mostly just used for dev servers.
 
-apache_document_base: /var/www/{{ app_name }}
