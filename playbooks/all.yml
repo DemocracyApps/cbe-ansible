@@ -1,0 +1,30 @@
+---
+- hosts: all
+  sudo: true
+
+  vars:
+    db_host:              "localhost"    # Can be localhost, URL, or none.
+    install_cbe:          "true"
+    install_data_service: "true"
+    aws:      "false"
+
+  vars_files:
+    - common_vars.yml
+    - cbe_vars.yml
+
+  roles:
+    - common    # Install standard software on the server
+    - webserver # Install & configure Apache & PHP
+    - { role: vhost, app_name: "cbe", app_port: 80}
+    - { role: database,         when: db_host == 'localhost' }
+    - { role: database_client,  when: db_host != 'localhost' }
+    - { role: cbe, when: install_cbe == 'true', app_name: "cbe"}
+#    - { role: laravel, app_name: "cbe" }
+
+
+#    - awscli
+#    - ebs_backup
+
+
+
+

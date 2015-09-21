@@ -1,2 +1,4 @@
 ---
-apache_document_base: /var/www/{{ app_name }}
+apache_document_base: /var/www
+web_user: www-data
+
