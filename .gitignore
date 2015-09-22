@@ -2,4 +2,10 @@
 .vagrant
 html
 cbe
+.cache
+.config
+.local
+.composer
+.v8flags*
+npm-debug.log
 

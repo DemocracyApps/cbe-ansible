@@ -69,4 +69,13 @@ Note that the comma following the IP address is required.
 From this point, instructions for the different environments are identical. We assume that
 you know how to run ansible either from your development machine or locally on the application server,
 as described above.
- 
+
+The rest of the installation is quite simple. The default ansible _all.yml_ playbook is set to install
+all applications (including the database used by the CBE) on a single server. To carry out this installation, 
+simply run that playbook. This can take a while (the longest commands are _Run composer install_ and _Run npm install_
+When those are done, log into the machine and run the following:
+
+    cd /var/www/cbe
+    php artisan migrate
+    
+
