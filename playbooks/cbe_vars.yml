@@ -1,7 +1,7 @@
-db_host:      "localhost"
-db_user:      "cbe_user"
-db_password:  "cbe_password"
-db_name:      "cbe"
+cbe_db_host:      "localhost"
+cbe_db_user:      "cbe_user"
+cbe_db_password:  "cbe_password"
+cbe_db_name:      "cbe"
 cbe_branch:   "asheville-cip"
 
 

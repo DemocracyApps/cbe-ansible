@@ -28,6 +28,7 @@ from inside the main repository directory. Then _vagrant ssh_ into the virtual s
 
 Note that the comma following _localhost_ is required.
 
+__IMPORTANT:__ Do not run this playbook after beginning development work - it can remove modified application files.
 
 ### Getting started on a remote server
 
@@ -40,3 +41,11 @@ Log in to the server, install git, clone this repository, change to the main rep
 
 Note that the comma following _localhost_ is required.
 
+__IMPORTANT:__ Do not run this playbook after beginning development work - it can remove modified application files.
+
+### Adding sample data
+
+If you would like to initialize the CBE with some sample data, you can also run:
+
+    cd /var/www/cbe
+    php artisan migrate --seed

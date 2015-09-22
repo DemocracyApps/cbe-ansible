@@ -1,14 +1,14 @@
 
-  - postgresql_user: name={{ db_user }} password={{db_password}} role_attr_flags=CREATEDB,CREATEROLE,CREATEUSER
+  - postgresql_user: name={{ cbe_db_user }} password={{cbe_db_password}} role_attr_flags=CREATEDB,CREATEROLE,CREATEUSER
     sudo: yes
     sudo_user: postgres
 
-  - postgresql_db: name={{ db_name }} login_host={{ db_host }} login_user={{ db_user }} login_password={{ db_password }}
+  - postgresql_db: name={{ cbe_db_name }} login_host={{ cbe_db_host }} login_user={{ cbe_db_user }} login_password={{ cbe_db_password }}
     sudo: yes
     sudo_user: postgres
 
   - name: Pull in the application
-    git: repo="https://github.com/DemocracyApps/Community-Budget-Explorer.git" version={{ cbe_branch }} dest="/var/www/{{app_name}}"
+    git: repo="https://github.com/DemocracyApps/Community-Budget-Explorer.git" force=yes version={{ cbe_branch }} dest="/var/www/{{app_name}}"
     sudo: yes
     sudo_user: "{{web_user}}"
 
@@ -81,5 +81,11 @@
     args:
       chdir: /var/www/{{ app_name }}
 
+  - name: Run the migration
+    command: php artisan migrate
+    sudo: yes
+    sudo_user: "{{web_user}}"
+    args:
+      chdir: /var/www/{{ app_name }}
 
 
