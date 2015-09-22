@@ -8,4 +8,5 @@ cbe
 .composer
 .v8flags*
 npm-debug.log
-
+.npm
+tmp
