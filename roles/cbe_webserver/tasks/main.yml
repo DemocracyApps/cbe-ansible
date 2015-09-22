@@ -1,0 +1,85 @@
+
+  - postgresql_user: name={{ db_user }} password={{db_password}} role_attr_flags=CREATEDB,CREATEROLE,CREATEUSER
+    sudo: yes
+    sudo_user: postgres
+
+  - postgresql_db: name={{ db_name }} login_host={{ db_host }} login_user={{ db_user }} login_password={{ db_password }}
+    sudo: yes
+    sudo_user: postgres
+
+  - name: Pull in the application
+    git: repo="https://github.com/DemocracyApps/Community-Budget-Explorer.git" version={{ cbe_branch }} dest="/var/www/{{app_name}}"
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: install composer
+    shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    args:
+      creates: /usr/local/bin/composer
+
+  - name: Create the vendor directory
+    file: path=/var/www/{{app_name}}/vendor state=directory mode=0777
+    sudo: yes
+
+  - name: Create the storage and logs directories
+    file: path=/var/www/{{app_name}}/storage state=directory mode=0777
+    sudo: yes
+
+  - name: Create the storage subdirectories
+    file: path=/var/www/{{app_name}}/storage/{{ item }} state=directory mode=0777
+    sudo: yes
+    with_items:
+      - logs
+      - app
+      - framework
+      - framework/cache
+      - framework/sessions
+      - framework/views
+
+  - name: Make the vendor subdirectories writeable
+    file:
+      path: /var/www/{{app_name}}/vendor
+      state: directory
+      mode: u=rwX,g=rwX,o=rwX
+      recurse: yes
+
+  - name: Make the storage directory writeable
+    file:
+      path: /var/www/{{app_name}}/storage
+      state: directory
+      mode: u=rwX,g=rwX,o=rwX
+      recurse: yes
+
+  - name: install JSON.minify
+    git: repo="https://github.com/DemocracyApps/JSON.minify.git" dest="/var/www/{{app_name}}/vendor/JSON.minify"
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: Run composer install
+    composer: command=install no_dev=no working_dir=/var/www/{{app_name}}
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: copy .env.example to .env
+    copy:
+      src=/var/www/{{app_name}}/.env.example dest=/var/www/{{app_name}}/.env
+
+  - name: Run npm nstall
+    npm: path=/var/www/{{ app_name }}
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: Install packages based on bower.json.
+    bower: path=/var/www/{{ app_name }}
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: Run gulp
+    command: gulp
+    sudo: yes
+    sudo_user: "{{web_user}}"
+    args:
+      chdir: /var/www/{{ app_name }}
+
+
+

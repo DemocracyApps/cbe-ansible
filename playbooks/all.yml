@@ -19,7 +19,7 @@
     - { role: database,         when: db_host == 'localhost' }
     - { role: database_client,  when: db_host != 'localhost' }
 # Install CBE, if set
-    - { role: cbe, when: install_cbe == 'true', app_name: "cbe" }
+    - { role: cbe_webserver, when: install_cbe == 'true', app_name: "cbe" }
     - { role: queueing, when: install_cbe=='true', app_name: "cbe" }
 
 
