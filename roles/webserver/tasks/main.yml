@@ -4,3 +4,9 @@
 
   - name: get rid of /var/www/html
     file: path=/var/www/html state=absent
+
+  - name: install composer
+    shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    args:
+      creates: /usr/local/bin/composer
+

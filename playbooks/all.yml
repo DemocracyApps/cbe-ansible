@@ -4,27 +4,32 @@
 
   vars:
     db_host:              "localhost"    # Can be localhost, URL, or none.
-    install_cbe:          "true"
+    install_cbe_web:      "false"
+    install_cbe_data:     "true"
     install_data_service: "true"
-    aws:      "false"
+    aws:                  "false"
+    git_force:            "yes"
 
   vars_files:
     - common_vars.yml
-    - cbe_vars.yml
+    - cbe_web_vars.yml
+    - cbe_data_vars.yml
 
   roles:
     - common    # Install standard software on the server
     - webserver # Install & configure Apache & PHP
-    - { role: vhost, app_name: "cbe", app_port: 80}
     - { role: database,         when: db_host == 'localhost' }
     - { role: database_client,  when: db_host != 'localhost' }
-# Install CBE, if set
-    - { role: cbe_webserver, when: install_cbe == 'true', app_name: "cbe" }
-    - { role: queueing, when: install_cbe=='true', app_name: "cbe" }
+# Install CBE Web, if set
+    - { role: vhost, when: install_cbe_web == 'true', app_name: "cbe", app_port: 80}
+    - { role: cbe_webserver, when: install_cbe_web == 'true', app_name: "cbe" }
+    - { role: queueing, when: install_cbe_web=='true', app_name: "cbe" }
 
+# Install CBE Data, if set
+    - { role: vhost, when: install_cbe_data == 'true', app_name: "cbe-dataserver", app_port: 53821}
+    - { role: cbe_dataserver, when: install_cbe_data == 'true', app_name: "cbe-dataserver" }
+    - { role: queueing, when: install_cbe_data=='true', app_name: "cbe-dataserver" }
 
-#    - awscli
-#    - ebs_backup
 
 
 

@@ -1,0 +1,7 @@
+data_db_host:      "localhost"
+data_db_user:      "cbe_user"
+data_db_password:  "cbe_password"
+data_db_name:      "cbe_data"
+data_branch:       "master"
+
+

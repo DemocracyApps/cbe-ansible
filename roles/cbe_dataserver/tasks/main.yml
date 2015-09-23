@@ -1,0 +1,68 @@
+  - postgresql_user: name={{ data_db_user }} password={{data_db_password}} role_attr_flags=CREATEDB,CREATEROLE,CREATEUSER
+    sudo: yes
+    sudo_user: postgres
+
+  - postgresql_db: name={{ data_db_name }} login_host={{ data_db_host }} login_user={{ data_db_user }} login_password={{ data_db_password }}
+    sudo: yes
+    sudo_user: postgres
+
+  - name: Pull in the application
+    git: repo="https://github.com/DemocracyApps/cbe-dataserver.git" force={{ git_force }} version={{ data_branch }} dest="/var/www/{{app_name}}"
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: Create the vendor directory
+    file: path=/var/www/{{app_name}}/vendor state=directory mode=0777
+    sudo: yes
+
+  - name: Make the vendor subdirectories writeable
+    file:
+      path: /var/www/{{app_name}}/vendor
+      state: directory
+      mode: u=rwX,g=rwX,o=rwX
+      recurse: yes
+
+#  - name: Create the storage and logs directories
+#    file: path=/var/www/{{app_name}}/storage state=directory mode=0777
+#    sudo: yes
+#
+#  - name: Create the storage subdirectories
+#    file: path=/var/www/{{app_name}}/storage/{{ item }} state=directory mode=0777
+#    sudo: yes
+#    with_items:
+#      - logs
+#      - app
+#      - framework
+#      - framework/cache
+#      - framework/sessions
+#      - framework/views
+#
+#  - name: Make the storage directory writeable
+#    file:
+#      path: /var/www/{{app_name}}/storage
+#      state: directory
+#      mode: u=rwX,g=rwX,o=rwX
+#      recurse: yes
+#
+#  - name: install JSON.minify
+#    git: repo="https://github.com/DemocracyApps/JSON.minify.git" dest="/var/www/{{app_name}}/vendor/JSON.minify"
+#    sudo: yes
+#    sudo_user: "{{web_user}}"
+#
+  - name: Run composer install
+    composer: command=install no_dev=no working_dir=/var/www/{{app_name}}
+    sudo: yes
+    sudo_user: "{{web_user}}"
+
+  - name: copy .env.example to .env
+    copy:
+      src=/var/www/{{app_name}}/.env.example dest=/var/www/{{app_name}}/.env
+
+  - name: Run the migration
+    command: php artisan migrate
+    sudo: yes
+    sudo_user: "{{web_user}}"
+    args:
+      chdir: /var/www/{{ app_name }}
+
+

@@ -8,14 +8,9 @@
     sudo_user: postgres
 
   - name: Pull in the application
-    git: repo="https://github.com/DemocracyApps/Community-Budget-Explorer.git" force=yes version={{ cbe_branch }} dest="/var/www/{{app_name}}"
+    git: repo="https://github.com/DemocracyApps/Community-Budget-Explorer.git" force={{ git_force }} version={{ cbe_branch }} dest="/var/www/{{app_name}}"
     sudo: yes
     sudo_user: "{{web_user}}"
-
-  - name: install composer
-    shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    args:
-      creates: /usr/local/bin/composer
 
   - name: Create the vendor directory
     file: path=/var/www/{{app_name}}/vendor state=directory mode=0777

@@ -13,5 +13,10 @@
     args:
       creates: /etc/apache2/sites-enabled/{{app_name}}.conf
 
+# The following works for multiple vhosts, but I'm not entirely sure why.
+  - name: If other than port 80, add a Listen line to ports.conf
+    lineinfile: dest=/etc/apache2/ports.conf line="Listen {{ app_port }}" state=present insertafter='^Listen '
+    when: app_port != '80'
+
   - name: reload apache
     service: name=apache2 state=reloaded

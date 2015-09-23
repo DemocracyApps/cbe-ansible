@@ -2,6 +2,7 @@
 .vagrant
 html
 cbe
+cbe-dataserver
 .cache
 .config
 .local
