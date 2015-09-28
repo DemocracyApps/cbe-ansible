@@ -16,11 +16,11 @@
   - name: create the queue.conf file in /etc/supervisor/conf.d
     template:
       src=queue.conf.j2
-      dest=/etc/supervisor/conf.d/queue.conf
+      dest=/etc/supervisor/conf.d/queue_{{app_name}}.conf
 
   - name: make sure supervisor is started
     service: name=supervisor enabled=yes state=started
 
   - name: Have supervisorctl start the queue program
-    supervisorctl: name=queue state=present config=/etc/supervisor/supervisord.conf
+    supervisorctl: name=queue_{{app_name}} state=present config=/etc/supervisor/supervisord.conf
 
