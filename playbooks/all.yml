@@ -9,6 +9,7 @@
     install_data_service: "true"
     aws:                  "false"
     git_force:            "yes"
+    swap_size:            "1G"
 
   vars_files:
     - common_vars.yml
@@ -17,6 +18,7 @@
 
   roles:
     - common    # Install standard software on the server
+    - swap
     - webserver # Install & configure Apache & PHP
     - { role: database,         when: db_host == 'localhost' }
     - { role: database_client,  when: db_host != 'localhost' }

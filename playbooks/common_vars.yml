@@ -1,6 +1,5 @@
 ---
 apache_document_base: /var/www
 web_user: www-data
-swap_size: 1G
 
 
