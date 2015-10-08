@@ -3,5 +3,6 @@ data_db_user:      "cbe_user"
 data_db_password:  "cbe_password"
 data_db_name:      "cbe_data"
 data_branch:       "master"
+data_directory:    "/data/cbe_data"
 
 

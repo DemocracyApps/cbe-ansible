@@ -66,3 +66,8 @@
       chdir: /var/www/{{ app_name }}
 
 
+  - name: Create the data directory
+    file: path={{data_directory}} state=directory mode=0777
+    sudo: yes
+
+
