@@ -11,3 +11,5 @@ cbe-dataserver
 npm-debug.log
 .npm
 tmp
+.DS_Store
+
