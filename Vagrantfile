@@ -14,8 +14,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.memory = 1024
     v.cpus = 1
   end
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "playbooks/initialize.yml"
-  end
+  config.vm.provision :shell, :path => "minimal_install.sh", :args => ["vagrant"]
 
 end

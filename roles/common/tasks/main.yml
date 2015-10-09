@@ -1,20 +1,7 @@
 ---
 
-  - name: Add the latest ansible repository
-    action: apt_repository repo='ppa:ansible/ansible' state=present
-
   - name: update apt cache
     apt: update_cache=yes upgrade=yes
-
-  - name: install git, curl, python, ansible, nodejs, npm, bower and gulp
-    apt: name={{ item }} state=present
-    with_items:
-      - git-core
-      - curl
-      - python-psycopg2
-      - ansible
-      - nodejs
-      - npm
 
   - name: Create alias /usr/bin/node -> /usr/bin/nodejs ... Grr
     file: src=/usr/bin/nodejs dest=/usr/bin/node owner=root group=root state=link
