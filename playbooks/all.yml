@@ -8,7 +8,7 @@
     install_cbe_data:     "true"
     install_data_service: "true"
     aws:                  "false"
-    git_force:            "yes"
+    git_force:            "no"
     swap_size:            "1G"
 
   vars_files:

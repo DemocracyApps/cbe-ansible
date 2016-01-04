@@ -83,4 +83,7 @@
     args:
       chdir: /var/www/{{ app_name }}
 
+  - name: Add cron job to run artisan
+    cron: name="Artisan scheduler" user="{{web_user}}" minute="*" job="/usr/bin/php /var/www/{{app_name}}/artisan schedule:run >> /dev/null 2>&1"
+
 

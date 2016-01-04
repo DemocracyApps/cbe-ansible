@@ -1,0 +1,22 @@
+---
+- hosts: all
+  sudo: true
+
+  vars:
+    db_host:              "localhost"    # Can be localhost, URL, or none.
+    install_cbe_web:      "true"
+    install_cbe_data:     "true"
+    install_data_service: "true"
+    aws:                  "false"
+    git_force:            "no"
+    swap_size:            "1G"
+
+  vars_files:
+    - common_vars.yml
+    - cbe_web_vars.yml
+    - cbe_data_vars.yml
+
+  roles:
+    - { role: vhost, when: install_cbe_data == 'true', app_name: "cbe-dataserver", app_port: 53821}
+    - { role: cbe_dataserver, when: install_cbe_data == 'true', app_name: "cbe-dataserver" }
+
